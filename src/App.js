@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
+import AppRouter from './AppRouter';
+import ThemeSwitch from './components/ThemeSwitch';
+import Currency from "./components/Currency";
+import { ThemeContext } from './context';
+import NavBar  from './containers/NavBar';
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import appStore from "./store/store";
 import './App.css';
 
 function App() {
+
+  const[ theme, setTheme] = useState("light")
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Provider store={appStore}>
+      <BrowserRouter>
+     <NavBar>
+     <ThemeSwitch changeTheme={(t) => setTheme(t)}></ThemeSwitch>
+     <Currency />
+     </NavBar>
+    <div className="container-fluid">
+    
+      {/* <TestForm></TestForm> */}
+     
+      <ThemeContext.Provider value={theme}>
+        <AppRouter />
+      </ThemeContext.Provider>
+
     </div>
+    </BrowserRouter>
+    </Provider>
+    
   );
 }
 
